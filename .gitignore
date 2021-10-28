@@ -227,7 +227,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-.package-lock.json
+*.log
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
