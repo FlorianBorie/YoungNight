@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {ActivityIndicator,Alert,Button,Text,TextInput,View} from "react-native";
+import authHelper from "./AuthUsers";
 
 const rootStyle = {
   display: "flex",
@@ -22,15 +23,20 @@ const Connexion = ({ setUser }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const signIn = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const user = await authHelper.signInOnFirebase(email, password);
-  //     await setUser(user);
-  //   } catch (err) {
-  //     Alert.alert("Erreur", err.message);
-  //   }
-  // };
+  const signIn = async () => {
+    setLoading(false);
+    try {
+      const user = await authHelper.signInOnFirebase(email, password);
+      console.log("connected")
+      await setUser(user)
+      console.log(user)
+    } catch (err) {
+      Alert.alert("Erreur", err.message);
+      console.log("no connected")
+      console.log(user)
+      console.log(email)
+    }
+  };
   
   return (
     <View style={rootStyle}>
@@ -53,7 +59,7 @@ const Connexion = ({ setUser }) => {
       {loading ? (
         <ActivityIndicator size={32} color="blue" />
       ) : (
-        <Button title="S'authentifier" /* onPress={signIn} */ />
+        <Button title="S'authentifier" onPress={signIn}  />
       )}
     </View>
   );
