@@ -7,6 +7,9 @@ import {FontAwesome5} from '@expo/vector-icons'
 
 import plus from './assets/plus.png'
 
+// Pages
+import Home from './Components/files/Home';
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -34,7 +37,7 @@ export default function App() {
         }
       }}>
 
-        <Tab.Screen name={"Home"} component={HomeScreen} options={{
+        <Tab.Screen name={"Home"} component={Home} options={{
           tabBarIcon: ({focused}) => (
             <View style={{
               position: "absolute",
@@ -163,13 +166,6 @@ export default function App() {
 function EmptyScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    </View>
-  );
-}
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
     </View>
   );
 }
