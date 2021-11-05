@@ -28,7 +28,7 @@ const Connexion = ({ setUser }) => {
     try {
       const user = await authHelper.signInOnFirebase(email, password);
       console.log("connected")
-      await setUser(user)
+      // await setUser(user)
       console.log(user)
     } catch (err) {
       Alert.alert("Erreur", err.message);

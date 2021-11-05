@@ -9,6 +9,7 @@ import plus from './assets/plus.png'
 
 // Pages
 import Home from './Components/files/Home';
+import Connexion from './Components/files/Connexion';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,11 +42,11 @@ export default function App() {
           tabBarIcon: ({focused}) => (
             <View style={{
               position: "absolute",
-              top: '50%'
+              top: '20%'
             }}>
               <FontAwesome5
               name="home"
-              size={20}
+              size={30}
               color={focused ? 'red' : 'gray'}
               ></FontAwesome5>
             </View>  
@@ -62,11 +63,11 @@ export default function App() {
           tabBarIcon: ({focused}) => (
             <View style={{
               position: "absolute",
-              top: '50%'
+              top: '20%'
             }}>
               <FontAwesome5
               name="search"
-              size={20}
+              size={30}
               color={focused ? 'red' : 'gray'}
               ></FontAwesome5>
             </View>  
@@ -101,15 +102,15 @@ export default function App() {
           )
         }}/>
 
-        <Tab.Screen name={"Notification"} component={NotificationScreen} options={{
+        <Tab.Screen name={"Map"} component={NotificationScreen} options={{
           tabBarIcon: ({focused}) => (
             <View style={{
               position: "absolute",
-              top: '50%'
+              top: '20%'
             }}>
               <FontAwesome5
-              name="bell"
-              size={20}
+              name="map-marked-alt"
+              size={30}
               color={focused ? 'red' : 'gray'}
               ></FontAwesome5>
             </View>  
@@ -122,15 +123,15 @@ export default function App() {
           }
         })}/>
 
-        <Tab.Screen name={"Settings"} component={SettingsScreen} options={{
+        <Tab.Screen name={"Settings"} component={Connexion} options={{
           tabBarIcon: ({focused}) => (
             <View style={{
               position: "absolute",
-              top: '50%'
+              top: '20%'
             }}>
               <FontAwesome5
               name="cog"
-              size={20}
+              size={30}
               color={focused ? 'red' : 'gray'}
               ></FontAwesome5>
             </View>  

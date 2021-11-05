@@ -10,16 +10,9 @@ const titleStyle = {
 };
 
 export default function Home() {
-  const [currentTab, setCurrentTab] = useState("Home");
     return (
         <View>
-            <Text style={{
-              fontSize: 30,
-              fontWeight: 'bold',
-              color: 'black',
-              paddingTop: 20
-            }}>{currentTab}</Text>
-
+            <Text style={{fontSize: 23, textAlign: 'center'}}>Soirée proche de chez vous</Text>
             <Image source={photo} style={{
               width: '100%',
               height: 300,
