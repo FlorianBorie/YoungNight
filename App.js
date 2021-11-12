@@ -20,6 +20,8 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator screenOptions={{
         showLabel: false,
+        // Pour enlever le header
+        headerShown: false,
         style: {
           backgroundColor: 'white',
           position: 'absolute',

@@ -12,7 +12,7 @@ const titleStyle = {
 export default function Home() {
     return (
         <View>
-            <Text style={{fontSize: 23, textAlign: 'center'}}>Soirée proche de chez vous</Text>
+            <Text style={{fontSize: 23, textAlign: 'center', marginTop: Constants.statusBarHeight}}>Soirée proche de chez vous</Text>
             <Image source={photo} style={{
               width: '100%',
               height: 300,
