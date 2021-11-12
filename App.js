@@ -10,6 +10,7 @@ import plus from './assets/plus.png'
 // Pages
 import Home from './Components/files/Home';
 import Connexion from './Components/files/Connexion';
+import Map from './Components/files/Map';
 
 const Tab = createBottomTabNavigator();
 
@@ -102,7 +103,7 @@ export default function App() {
           )
         }}/>
 
-        <Tab.Screen name={"Map"} component={NotificationScreen} options={{
+        <Tab.Screen name={"Map"} component={Map} options={{
           tabBarIcon: ({focused}) => (
             <View style={{
               position: "absolute",
@@ -177,10 +178,10 @@ function SearchScreen() {
     </View>
   );
 }
-function NotificationScreen() {
+function MapScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Notification!</Text>
+      <Text>Map</Text>
     </View>
   );
 }
