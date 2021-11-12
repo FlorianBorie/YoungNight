@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import Constants from 'expo-constants';
 
 // Photo
 import photo from '../../assets/aperitif.png'
