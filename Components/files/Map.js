@@ -1,11 +1,45 @@
-import * as React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import * as Location from 'expo-location';
+import { StyleSheet, Text, View, Dimensions, ActivityIndicator } from 'react-native';
 
-export default function Map() {
+const initialState = { latitude: null, longitude: null }
+const Map = (props) => {
+  const [state, setState ] = useState(initialState);
+  const { latitude, longitude } = state;
+  const { container, map } = styles;
+  const getUserLocation = async () => {
+    try {
+        const { coords: { latitude, longitude }} = await Location.getCurrentPositionAsync()
+        // console.log('location', location)
+        setState(prevState => ({
+            ...prevState,
+            latitude,
+            longitude
+        }));
+    }catch(e) {
+        console.error("error getUserLocation", e);
+    }
+}
+useEffect(() => {
+    getUserLocation();
+}, []);
+if (!latitude || !longitude) {
   return (
-    <View style={styles.container}>
-      <MapView style={styles.map} />
+      <View style={container}>
+          <ActivityIndicator size="large" />
+      </View>
+  )
+}
+  return (
+    <View style={container}>
+      <MapView style={map} showsUserLocation followsUserLocation 
+            region = {{
+                latitude,
+                longitude,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.121
+            }}/>
     </View>
   );
 }
@@ -22,3 +56,5 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
 });
+
+export default Map;

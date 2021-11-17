@@ -1,9 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as Permissions from "expo-permissions";
 
 import {FontAwesome5} from '@expo/vector-icons'
+import { renderInitialScreen } from './Components/utils/helpers';
 
 import plus from './assets/plus.png'
 
@@ -15,10 +17,29 @@ import Map from './Components/files/Map';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const [initialSreen, setInitialScreen] = useState("Login")
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
+  const loadRessources = async () => {
+    try {
+      const result = await new Promise.all([
+        renderInitialScreen(),
+        Permissions.askAsync(Permissions.LOCATION_FOREGROUND)
+      ])
+      const route = result[0];
+      const status = result[1].status;
+      if(route === "granted") {
+        setInitialScreen(route)
+      }
+    } catch(e){
+      console.error("error loading ressources", e)
+    }
+  }
+  useEffect(() => {
+    loadRessources();
+  })
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{
+      <Tab.Navigator initialRouteName={initialSreen} screenOptions={{
         showLabel: false,
         // Pour enlever le header
         headerShown: false,
@@ -126,7 +147,7 @@ export default function App() {
           }
         })}/>
 
-        <Tab.Screen name={"Settings"} component={Connexion} options={{
+        <Tab.Screen name={"Connexion"} component={Connexion} options={{
           tabBarIcon: ({focused}) => (
             <View style={{
               position: "absolute",
@@ -177,20 +198,6 @@ function SearchScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Search!</Text>
-    </View>
-  );
-}
-function MapScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Map</Text>
-    </View>
-  );
-}
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
     </View>
   );
 }
