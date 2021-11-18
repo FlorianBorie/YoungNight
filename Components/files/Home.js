@@ -1,14 +1,9 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import React from 'react';
+import { View, Text, Image } from 'react-native';
 import Constants from 'expo-constants';
 
 // Photo
 import photo from '../../assets/aperitif.png'
-
-const titleStyle = {
-    textAlign: 'center',
-    fontSize: '20px',
-};
 
 export default function Home() {
     return (

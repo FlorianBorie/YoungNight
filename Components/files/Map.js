@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import { StyleSheet, Text, View, Dimensions, ActivityIndicator } from 'react-native';
@@ -11,7 +11,6 @@ const Map = (props) => {
   const getUserLocation = async () => {
     try {
         const { coords: { latitude, longitude }} = await Location.getCurrentPositionAsync()
-        // console.log('location', location)
         setState(prevState => ({
             ...prevState,
             latitude,
