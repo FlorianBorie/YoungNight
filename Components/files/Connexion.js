@@ -18,7 +18,7 @@ const inputStyle = {
   marginBottom: 32,
 };
 
-const Connexion = ({ setUser }) => {
+const Connexion = ({setUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,8 +27,8 @@ const Connexion = ({ setUser }) => {
     setLoading(false);
     try {
       const user = await authHelper.signInOnFirebase(email, password);
+      await setUser(user)
       console.log("connected")
-      // await setUser(user)
       console.log(user)
     } catch (err) {
       Alert.alert("Erreur", err.message);
@@ -59,7 +59,8 @@ const Connexion = ({ setUser }) => {
       {loading ? (
         <ActivityIndicator size={32} color="blue" />
       ) : (
-        <Button title="S'authentifier" onPress={signIn}  />
+        <Button title="S'authentifier" 
+        onPress={signIn}/>
       )}
     </View>
   );

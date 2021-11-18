@@ -1,203 +1,111 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity, Animated, Dimensions } from 'react-native';
+import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Permissions from "expo-permissions";
-
-import {FontAwesome5} from '@expo/vector-icons'
-import { renderInitialScreen } from './Components/utils/helpers';
-
-import plus from './assets/plus.png'
+import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Pages
-import Home from './Components/files/Home';
 import Connexion from './Components/files/Connexion';
+import Home from './Components/files/Home';
 import Map from './Components/files/Map';
+import Profil from './Components/files/Profil';
 
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+const Tabs = createBottomTabNavigator(); 
 
+const USER_STORAGE_KEY = "USER_STORAGE_KEY";
+ 
 export default function App() {
-  const [initialSreen, setInitialScreen] = useState("Login")
-  const tabOffsetValue = useRef(new Animated.Value(0)).current;
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [userLoading, setUserLoading] = React.useState(true);
+  const [user, setUser] = React.useState(null);
+
   const loadRessources = async () => {
     try {
-      const result = await new Promise.all([
-        renderInitialScreen(),
-        Permissions.askAsync(Permissions.LOCATION_FOREGROUND)
-      ])
-      const route = result[0];
-      const status = result[1].status;
-      if(route === "granted") {
-        setInitialScreen(route)
+      let { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND)
+      if(status === "granted") {
+        console.log('Permission to access location was denied');
+        return;
       }
     } catch(e){
       console.error("error loading ressources", e)
     }
   }
-  useEffect(() => {
-    loadRessources();
-  })
-  return (
-    <NavigationContainer>
-      <Tab.Navigator initialRouteName={initialSreen} screenOptions={{
-        showLabel: false,
-        // Pour enlever le header
-        headerShown: false,
-        style: {
-          backgroundColor: 'white',
-          position: 'absolute',
-          bottom: 35,
-          marginHorizontal: 20,
-          // Largeur max
-          height: 60,
-          borderRadius: 10,
-          // Ombrage
-          shadowColor: '#000',
-          shadowOpacity: 0.06,
-          shadowOffset: {
-            width: 10,
-            height: 10
-          },
-          paddingHorizontal: 20
+  React.useEffect(() => {
+    const initialProcess = async () => {
+      try{
+        const storageUser = await AsyncStorage.getItem(USER_STORAGE_KEY)
+        if (storageUser) {
+          setUser(storageUser);
+          const serverData = await loadRessources(); 
+          setData(serverData.slice(0, 20));
+          setLoading(false)
+        } else {
+
         }
-      }}>
+        setUserLoading(false);
+      } catch(err){
+        console.error(err)
+      }
+    };
+    initialProcess();
+  }, []);
 
-        <Tab.Screen name={"Home"} component={Home} options={{
-          tabBarIcon: ({focused}) => (
-            <View style={{
-              position: "absolute",
-              top: '20%'
-            }}>
-              <FontAwesome5
-              name="home"
-              size={30}
-              color={focused ? 'red' : 'gray'}
-              ></FontAwesome5>
-            </View>  
-          )
-        }} listeners={({navigation, route})=>({
-          tabPress: e =>{
-            Animated.spring(tabOffsetValue,{
-              useNativeDriver: true
-            }).start()
-          }
-        })}/>
-
-        <Tab.Screen name={"Search"} component={SearchScreen} options={{
-          tabBarIcon: ({focused}) => (
-            <View style={{
-              position: "absolute",
-              top: '20%'
-            }}>
-              <FontAwesome5
-              name="search"
-              size={30}
-              color={focused ? 'red' : 'gray'}
-              ></FontAwesome5>
-            </View>  
-          )
-        }} listeners={({navigation, route})=>({
-          tabPress: e =>{
-            Animated.spring(tabOffsetValue,{
-              useNativeDriver: true
-            }).start()
-          }
-        })}/>
-
-        <Tab.Screen name={"ActionButton"} component={EmptyScreen} options={{
-          tabBarIcon: ({focused}) => (
-            <TouchableOpacity>
-              <View style={{
-                width: 55,
-                height: 55,
-                backgroundColor: 'red',
-                borderRadius: '50%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 30
-              }}>
-                <Image source={plus} style={{
-                  width: 22,
-                  height: 22,
-                  tintColor: 'white'
-                }}></Image>
-              </View>
-            </TouchableOpacity> 
-          )
-        }}/>
-
-        <Tab.Screen name={"Map"} component={Map} options={{
-          tabBarIcon: ({focused}) => (
-            <View style={{
-              position: "absolute",
-              top: '20%'
-            }}>
-              <FontAwesome5
-              name="map-marked-alt"
-              size={30}
-              color={focused ? 'red' : 'gray'}
-              ></FontAwesome5>
-            </View>  
-          )
-        }} listeners={({navigation, route})=>({
-          tabPress: e =>{
-            Animated.spring(tabOffsetValue,{
-              useNativeDriver: true
-            }).start()
-          }
-        })}/>
-
-        <Tab.Screen name={"Connexion"} component={Connexion} options={{
-          tabBarIcon: ({focused}) => (
-            <View style={{
-              position: "absolute",
-              top: '20%'
-            }}>
-              <FontAwesome5
-              name="cog"
-              size={30}
-              color={focused ? 'red' : 'gray'}
-              ></FontAwesome5>
-            </View>  
-          )
-        }} listeners={({navigation, route})=>({
-          tabPress: e =>{
-            Animated.spring(tabOffsetValue,{
-              useNativeDriver: true
-            }).start()
-          }
-        })}/>
-
-      </Tab.Navigator>
-
-      <Animated.View style={{
-        height: 2,
-        backgroundColor: 'red',
-        position: 'absolute',
-        bottom: 79,
-        // padding horizontal = 20 ..
-        left: 20,
-        borderRadius: '50%',
-        transform:[
-          { translateX: tabOffsetValue }
-        ]
-      }}>
-
-      </Animated.View>
-    </NavigationContainer>
+  const StackNav = () =>  (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="HomeScreen" component={Home}/>
+    </Stack.Navigator>
   )
-}
+  const MapNav = () => (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="MapScreen" component={Map} />
+    </Stack.Navigator>
+  )
+  const ProfilNav = () => (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="ProfilScreen" component={Profil} />
+    </Stack.Navigator>
+  )
+  
+  const authenticatedBody = (
+    <NavigationContainer>
+      <Tabs.Navigator screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
 
-function EmptyScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    </View>
+            if (route.name === 'Home') {
+              iconName = focused
+                ? 'home'
+                : 'home-outline';
+            } else if (route.name === 'Map') {
+              iconName = focused ? 'map' : 'map-outline';
+            } else if (route.name === 'Profil') {
+              iconName = focused ? 'person' : 'person-outline';
+            }
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        <Tabs.Screen name="Home" component={StackNav}/>
+        <Tabs.Screen name="Map" component={MapNav}/>
+        <Tabs.Screen name="Profil" component={ProfilNav}/>
+      </Tabs.Navigator> 
+      <StatusBar style="auto"/>
+    </NavigationContainer>
   );
-}
-function SearchScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Search!</Text>
-    </View>
-  );
-}
+
+  const unauthenticatedBody = <Connexion setUser={setUser}/>;
+  const body = user ? authenticatedBody : unauthenticatedBody;
+
+  return userLoading ? <ActivityIndicator /> : body;
+
+};
