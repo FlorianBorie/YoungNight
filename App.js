@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { ActivityIndicator, View, Image } from 'react-native';
+import React, { useEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,8 +8,6 @@ import * as Permissions from "expo-permissions";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import plus from './assets/plus.png';
-
 // Pages
 import Connexion from './Components/files/Connexion';
 import Home from './Components/files/Home';
@@ -17,7 +15,6 @@ import Map from './Components/files/Map';
 import Profil from './Components/files/Profil';
 import AddEvent from './Components/files/AddEvent';
 import Message from './Components/files/Message';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator(); 
@@ -81,25 +78,7 @@ export default function App() {
   )
   const AddEventNav = () => (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="AddEventScreen" component={AddEvent} options={
-        <TouchableOpacity>
-        <View style={{
-          width: 50,
-          height: 50,
-          backgroundColor: 'red',
-          borderRadius: '50%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 30,
-        }}>
-          <Image source={plus} style={{
-            width: 22,
-            height: 22,
-            tintColor: 'white',
-          }}></Image>
-        </View>
-      </TouchableOpacity>
-      }/>
+      <Stack.Screen name="AddEventScreen" component={AddEvent} />
     </Stack.Navigator>
   )
   const MessageNav = () => (
@@ -123,16 +102,12 @@ export default function App() {
             let iconName;
 
             if (route.name === 'Home') {
-              iconName = focused
-                ? 'home'
-                : 'home-outline';
+              iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Map') {
               iconName = focused ? 'map' : 'map-outline';
-            } 
-            else if (route.name === 'Add') {
+            } else if (route.name === 'Add') {
               iconName = focused ? 'add' : 'add-outline';
-            } 
-            else if (route.name === 'Message') {
+            } else if (route.name === 'Message') {
               iconName = focused ? 'mail' : 'mail-outline';
             } else if (route.name === 'Profil') {
               iconName = focused ? 'person' : 'person-outline';
