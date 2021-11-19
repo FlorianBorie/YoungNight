@@ -1,5 +1,5 @@
-import React from 'react';
-import { ActivityIndicator } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { ActivityIndicator, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,11 +8,16 @@ import * as Permissions from "expo-permissions";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import plus from './assets/plus.png';
+
 // Pages
 import Connexion from './Components/files/Connexion';
 import Home from './Components/files/Home';
 import Map from './Components/files/Map';
 import Profil from './Components/files/Profil';
+import AddEvent from './Components/files/AddEvent';
+import Message from './Components/files/Message';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator(); 
@@ -27,15 +32,18 @@ export default function App() {
 
   const loadRessources = async () => {
     try {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND)
+      const status = Permissions.askAsync(Permissions.LOCATION_FOREGROUND)
       if(status === "granted") {
-        console.log('Permission to access location was denied');
-        return;
+        setLoading(false);
       }
     } catch(e){
       console.error("error loading ressources", e)
     }
   }
+  useEffect(() => {
+    loadRessources();
+  })
+
   React.useEffect(() => {
     const initialProcess = async () => {
       try{
@@ -56,6 +64,11 @@ export default function App() {
     initialProcess();
   }, []);
 
+  const SignOut = () => {
+    setUser(null);
+    AsyncStorage.removeItem(USER_STORAGE_KEY)
+  };
+
   const StackNav = () =>  (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={Home}/>
@@ -66,9 +79,39 @@ export default function App() {
       <Stack.Screen name="MapScreen" component={Map} />
     </Stack.Navigator>
   )
+  const AddEventNav = () => (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="AddEventScreen" component={AddEvent} options={
+        <TouchableOpacity>
+        <View style={{
+          width: 50,
+          height: 50,
+          backgroundColor: 'red',
+          borderRadius: '50%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 30,
+        }}>
+          <Image source={plus} style={{
+            width: 22,
+            height: 22,
+            tintColor: 'white',
+          }}></Image>
+        </View>
+      </TouchableOpacity>
+      }/>
+    </Stack.Navigator>
+  )
+  const MessageNav = () => (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="MessageScreen" component={Message} />
+    </Stack.Navigator>
+  )
   const ProfilNav = () => (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="ProfilScreen" component={Profil} />
+      <Stack.Screen name="ProfilScreen">
+        {(props) => <Profil {...props} SignOut={SignOut}/>}
+      </Stack.Screen>
     </Stack.Navigator>
   )
   
@@ -85,9 +128,15 @@ export default function App() {
                 : 'home-outline';
             } else if (route.name === 'Map') {
               iconName = focused ? 'map' : 'map-outline';
+            } 
+            else if (route.name === 'Add') {
+              iconName = focused ? 'add' : 'add-outline';
+            } 
+            else if (route.name === 'Message') {
+              iconName = focused ? 'mail' : 'mail-outline';
             } else if (route.name === 'Profil') {
               iconName = focused ? 'person' : 'person-outline';
-            }
+            } 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
@@ -97,6 +146,8 @@ export default function App() {
       >
         <Tabs.Screen name="Home" component={StackNav}/>
         <Tabs.Screen name="Map" component={MapNav}/>
+        <Tabs.Screen name="Add" component={AddEventNav}/>
+        <Tabs.Screen name="Message" component={MessageNav}/>
         <Tabs.Screen name="Profil" component={ProfilNav}/>
       </Tabs.Navigator> 
       <StatusBar style="auto"/>

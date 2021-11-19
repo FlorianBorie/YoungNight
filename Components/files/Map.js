@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   map: {
     width: Dimensions.get('window').width,

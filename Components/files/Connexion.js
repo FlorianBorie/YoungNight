@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import {ActivityIndicator,Alert,Button,Text,TextInput,View} from "react-native";
+import {ActivityIndicator, Alert, Button, Text, TextInput, View, Image} from "react-native";
 import authHelper from "./AuthUsers";
+
+// Photo
+import logo from '../../assets/yougnight.png'
 
 const rootStyle = {
   display: "flex",
@@ -40,9 +43,7 @@ const Connexion = ({setUser}) => {
   
   return (
     <View style={rootStyle}>
-      <Text style={{ fontSize: 24, marginBottom: 32 }}>
-        Authentification
-      </Text>
+      <Image style={{height: 300, width: 300, marginBottom: 50, marginTop: 30}} source={logo}/>
       <Text>Email</Text>
       <TextInput
         style={inputStyle}

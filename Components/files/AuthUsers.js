@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { initializeApp, getApps } from "firebase/app";
 
 const firebaseConfig = {
@@ -25,6 +25,9 @@ const authHelper = {
     );
     return result.user.email;
   },
+  signOutFirebase: async() => {
+    await signOut(auth)
+  }
 };
 
 export default authHelper;
