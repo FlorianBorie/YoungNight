@@ -15,6 +15,7 @@ import Map from './Components/files/Map';
 import Profil from './Components/files/Profil';
 import AddEvent from './Components/files/AddEvent';
 import Message from './Components/files/Message';
+import MessageId from './Components/files/MessageId'
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator(); 
@@ -84,6 +85,7 @@ export default function App() {
   const MessageNav = () => (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="MessageScreen" component={Message} />
+      <Stack.Screen name="MessageIdScreen" component={MessageId} />
     </Stack.Navigator>
   )
   const ProfilNav = () => (
