@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import Constants from 'expo-constants';
 import authHelper  from "./AuthUsers";

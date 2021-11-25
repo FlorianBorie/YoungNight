@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as Permissions from "expo-permissions";
+import * as Location from 'expo-location';
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -29,7 +29,7 @@ export default function App() {
 
   const loadRessources = async () => {
     try {
-      const status = Permissions.askAsync(Permissions.LOCATION_FOREGROUND)
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if(status === "granted") {
         setLoading(false);
       }
