@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import {ActivityIndicator, Alert, Button, Text, TextInput, View, Image} from "react-native";
+import {
+  ActivityIndicator, 
+  Alert, 
+  Button, 
+  Text, 
+  TextInput, 
+  View, 
+  Image, 
+  KeyboardAvoidingView, 
+  TouchableWithoutFeedback,
+  Keyboard
+} from "react-native";
 import authHelper from "./AuthUsers";
 
 // Photo
@@ -21,6 +32,10 @@ const inputStyle = {
   marginBottom: 32,
 };
 
+const container = {
+  flex: 1,
+  justifyContent: "space-around"
+};
 const Connexion = ({setUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,28 +57,36 @@ const Connexion = ({setUser}) => {
   };
   
   return (
-    <View style={rootStyle}>
-      <Image style={{height: 300, width: 300, marginBottom: 50, marginTop: 30}} source={logo}/>
-      <Text>Email</Text>
-      <TextInput
-        style={inputStyle}
-        value={email}
-        onChangeText={(txt) => setEmail(txt)}
-      />
-      <Text>Mot de passe</Text>
-      <TextInput
-        style={inputStyle}
-        secureTextEntry
-        value={password}
-        onChangeText={(txt) => setPassword(txt)}
-      />
-      {loading ? (
-        <ActivityIndicator size={32} color="blue" />
-      ) : (
-        <Button title="S'authentifier" 
-        onPress={signIn}/>
-      )}
-    </View>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={rootStyle}>
+          <Image style={{height: 300, width: 300, marginBottom: 50, marginTop: 30}} source={logo}/>
+          <Text>Email</Text>
+          <TextInput
+            style={inputStyle}
+            value={email}
+            onChangeText={(txt) => setEmail(txt)}
+          />
+          <Text>Mot de passe</Text>
+          <TextInput
+            style={inputStyle}
+            secureTextEntry
+            value={password}
+            onChangeText={(txt) => setPassword(txt)}
+          />
+          {loading ? (
+            <ActivityIndicator size={32} color="blue" />
+          ) : (
+            <Button title="S'authentifier" 
+            onPress={signIn}/>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+
   );
 };
 

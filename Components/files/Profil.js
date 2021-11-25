@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import Constants from 'expo-constants';
+import { 
+    View, 
+    Text, 
+    TextInput, 
+    TouchableOpacity, 
+    StyleSheet, 
+    Image,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard
+} from 'react-native';
 import authHelper  from "./AuthUsers";
 
 import logo from '../../assets/yougnight.png'
@@ -21,6 +30,11 @@ const inputStyle = {
     width: "100%",
     marginBottom: 32,
   };
+
+const container = {
+    flex: 1,
+    justifyContent: "space-around",
+}
   
 const Profil = ({SignOut}) => {
     const [nom, setNom] = useState("");
@@ -39,47 +53,54 @@ const Profil = ({SignOut}) => {
     }
 
     return(
-        <View style={rootStyle}>
-            <Image style={{height: 200, width: 200, marginBottom: 50, marginTop: 30}} source={logo}/>
-            <Text>Nom</Text>
-            <TextInput
-                style={inputStyle}
-                value={nom}
-                onChangeText={(txt) => setNom(txt)}
-            />
-            <Text>Prénom</Text>
-            <TextInput
-                style={inputStyle}
-                value={prenom}
-                onChangeText={(txt) => setPrenom(txt)}
-            />
-            <Text>Email</Text>
-            <TextInput
-                style={inputStyle}
-                value={email}
-                onChangeText={(txt) => setEmail(txt)}
-            />
-             <Text>Adresse</Text>
-            <TextInput
-                style={inputStyle}
-                value={adresse}
-                onChangeText={(txt) => seAdresse(txt)}
-            />
-            {/* <Text>Mot de passe</Text>
-            <TextInput
-                style={inputStyle}
-                secureTextEntry
-                value={password}
-                onChangeText={(txt) => setPassword(txt)}
-            /> */}
-            <TouchableOpacity 
-                onPress={handleSignOut}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>Déconnexion</Text>
-            </TouchableOpacity>
-        
-        </View>
+        <KeyboardAvoidingView 
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={container}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={rootStyle}>
+                    <Image style={{height: 200, width: 200, marginBottom: 50}} source={logo}/>
+                    <Text>Nom</Text>
+                    <TextInput
+                        style={inputStyle}
+                        value={nom}
+                        onChangeText={(txt) => setNom(txt)}
+                    />
+                    <Text>Prénom</Text>
+                    <TextInput
+                        style={inputStyle}
+                        value={prenom}
+                        onChangeText={(txt) => setPrenom(txt)}
+                    />
+                    <Text>Email</Text>
+                    <TextInput
+                        style={inputStyle}
+                        value={email}
+                        onChangeText={(txt) => setEmail(txt)}
+                    />
+                    <Text>Adresse</Text>
+                    <TextInput
+                        style={inputStyle}
+                        value={adresse}
+                        onChangeText={(txt) => seAdresse(txt)}
+                    />
+                    {/* <Text>Mot de passe</Text>
+                    <TextInput
+                        style={inputStyle}
+                        secureTextEntry
+                        value={password}
+                        onChangeText={(txt) => setPassword(txt)}
+                    /> */}
+                    <TouchableOpacity 
+                        onPress={handleSignOut}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>Déconnexion</Text>
+                    </TouchableOpacity>
+                
+                </View>
+        </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     )
 }
 
