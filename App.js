@@ -15,7 +15,9 @@ import Map from './Components/files/Map';
 import Profil from './Components/files/Profil';
 import AddEvent from './Components/files/AddEvent';
 import Message from './Components/files/Message';
-import MessageId from './Components/files/MessageId'
+import MessageId from './Components/files/MessageId';
+import EventDetail from './Components/files/EventDetail';
+import Participation from './Components/files/Participation';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator(); 
@@ -70,6 +72,8 @@ export default function App() {
   const StackNav = () =>  (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={Home}/>
+      <Stack.Screen name="EventScreen" component={EventDetail}/>
+      <Stack.Screen name="ParticipationScreen" component={Participation}/>
     </Stack.Navigator>
   )
   const MapNav = () => (

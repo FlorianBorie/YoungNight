@@ -2,20 +2,16 @@ import React from 'react';
 import { 
     View, 
     Text, 
-    TextInput, 
     TouchableOpacity, 
     StyleSheet, 
     Image,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard
 } from 'react-native';
 import Constants from 'expo-constants';
 
 // Photo
 import photo from '../../assets/validate.png'
 
-export default function Participation() {
+const Participation = ({navigation}) => {
     return (
         <View>
             <Text style={{fontSize: 23, textAlign: 'center', marginTop: Constants.statusBarHeight}}>Participation envoyée !</Text>
@@ -35,7 +31,34 @@ export default function Participation() {
 
             <Text style={{
             }}>On croise les doigts pour que vous soyez pris 🤞</Text>
+
+            <TouchableOpacity 
+                onPress={() => navigation.navigate('HomeScreen')}
+                // onPress={handleSignOut}
+                style={styles.button}
+            >
+                <Text style={styles.buttonText}>Retour à la page d'accueil</Text>
+            </TouchableOpacity>
             
         </View>
     )
 }
+const styles = StyleSheet.create({ 
+  button: {
+      marginTop: Constants.statusBarHeight,
+      backgroundColor: 'tomato',
+      width: '70%',
+      padding: 10,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginLeft: '15%',
+  },
+  buttonText: {
+      color: 'white',
+      fontWeight: '700',
+      fontSize: 16,
+  },
+})
+
+export default Participation;
