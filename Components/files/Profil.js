@@ -61,25 +61,25 @@ const Profil = ({SignOut}) => {
                 <View style={rootStyle}>
                     <Image style={{height: 200, width: 200, marginBottom: 50}} source={logo}/>
                     <Text>Nom</Text>
-                    <TextInput
+                    <Text
                         style={inputStyle}
                         value={nom}
                         onChangeText={(txt) => setNom(txt)}
                     />
                     <Text>Prénom</Text>
-                    <TextInput
+                    <Text
                         style={inputStyle}
                         value={prenom}
                         onChangeText={(txt) => setPrenom(txt)}
                     />
                     <Text>Email</Text>
-                    <TextInput
+                    <Text
                         style={inputStyle}
                         value={email}
                         onChangeText={(txt) => setEmail(txt)}
                     />
                     <Text>Adresse</Text>
-                    <TextInput
+                    <Text
                         style={inputStyle}
                         value={adresse}
                         onChangeText={(txt) => seAdresse(txt)}
