@@ -2,30 +2,16 @@ import React from 'react';
 import { 
     View, 
     Text, 
-    TextInput, 
     TouchableOpacity, 
     StyleSheet, 
-    Image,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard
+    Image
 } from 'react-native';
 import Constants from 'expo-constants';
 
 // Photo
 import photo from '../../assets/soiree.png'
-import Participation from './Participation';
 
-const handleSignOut = () => {
-    authHelper
-    .signOutFirebase()
-    .then(() => {
-        SignOut()
-    })
-    .catch(error => alert(error.message))
-}
-
-export default function Detail() {
+const EventDetail = ({navigation}) => {
     return (
         <View>
             <Text style={{fontSize: 23, textAlign: 'center', marginTop: Constants.statusBarHeight}}>Soirée Chartrons</Text>
@@ -46,12 +32,33 @@ export default function Detail() {
             <Text style={{
             }}>Pour avoir plus d'informations sur cette soirée, veuillez faire une demande de participation à l'hôte</Text>
             
-            {/* <TouchableOpacity 
-                onPress={handleSignOut}
+            <TouchableOpacity 
+                onPress={() => navigation.navigate('ParticipationScreen')}
+                // onPress={handleSignOut}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Participer</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
         </View>
     )
 }
+
+const styles = StyleSheet.create({ 
+    button: {
+        marginTop: Constants.statusBarHeight,
+        backgroundColor: 'tomato',
+        width: '40%',
+        padding: 10,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: '25%',
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
+    },
+})
+
+export default EventDetail;

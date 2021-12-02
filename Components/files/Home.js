@@ -1,15 +1,17 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
-import Constants from 'expo-constants';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Party from './Party';
 
 // Photo
-import photo from '../../assets/aperitif.png'
 
-const Home = () => {
+const Home = ({navigation}) => {
     return (
         <View>
-         <Party/>
+            <TouchableOpacity
+                onPress={() => navigation.navigate("EventScreen")}
+            >
+                <Party/>
+            </TouchableOpacity>    
         </View>
     )
 }

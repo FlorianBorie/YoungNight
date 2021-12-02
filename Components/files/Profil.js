@@ -106,7 +106,7 @@ const Profil = ({SignOut}) => {
 
 const styles = StyleSheet.create({ 
     button: {
-        backgroundColor: '#0782F9',
+        backgroundColor: 'tomato',
         width: '60%',
         padding: 15,
         borderRadius: 10,

@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View, Image, Button, Alert, TouchableOpacity} from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
 import Constants from 'expo-constants';
 
 //Photo
