@@ -14,7 +14,14 @@ import photo from '../../assets/soiree.png'
 const EventDetail = ({navigation}) => {
     return (
         <View>
-            <Text style={{fontSize: 23, textAlign: 'center', marginTop: Constants.statusBarHeight}}>Soirée Chartrons</Text>
+            <TouchableOpacity 
+                    onPress={() => navigation.navigate("HomeScreen")}
+                    // onPress={handleSignOut}
+                    style={styles.buttonRetour}
+                >
+                    <Text style={styles.buttonRetourText}>Retour</Text>
+            </TouchableOpacity>
+            <Text style={{fontSize: 23, textAlign: 'center'}}>Soirée Chartrons</Text>
             <Image source={photo} style={{
               width: '100%',
               height: 300,
@@ -55,6 +62,20 @@ const styles = StyleSheet.create({
         marginLeft: '25%',
     },
     buttonText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
+    },
+    buttonRetour: {
+        marginTop: Constants.statusBarHeight,
+        backgroundColor: 'gray',
+        width: '20%',
+        padding: 10,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonRetourText: {
         color: 'white',
         fontWeight: '700',
         fontSize: 16,

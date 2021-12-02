@@ -33,7 +33,7 @@ const MessageId = ({navigation}) => {
 const styles = StyleSheet.create({ 
     button: {
         marginTop: Constants.statusBarHeight,
-        backgroundColor: 'tomato',
+        backgroundColor: 'gray',
         width: '20%',
         padding: 10,
         borderRadius: 10,
